@@ -47,13 +47,21 @@ struct ContentView: View {
                         Text(priority.title).tag(priority)
                     }
                 }.pickerStyle(.segmented)
+                Button("Add task") {
+
+                }
+                .padding(10)
+                .frame(maxWidth: 320)
+                .background(Color(hue: 0.293, saturation: 0.761, brightness: 0.819, opacity: 0.966))
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10.0, style:
+                        .continuous))
                 
                 Spacer()
             }
             .padding()
             .navigationTitle("To do")
         }
-
     }
 }
 
