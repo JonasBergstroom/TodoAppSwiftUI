@@ -7,10 +7,53 @@
 
 import SwiftUI
 
+enum Priority: String, Identifiable, CaseIterable {
+    
+    var id: UUID {
+        return UUID()
+    }
+    
+    case low = "Low"
+    case medium = "Medium"
+    case high = "High"
+}
+
+extension Priority {
+    
+    var title: String {
+        switch self {
+        case .low:
+            return "Low"
+        case .medium:
+            return "Medium"
+        case .high:
+            return "High"
+        }
+    }
+}
+
 struct ContentView: View {
+    
+    @State private var title: String = ""
+    @State private var selectedPriority: Priority = .medium
+    
     var body: some View {
-        Text("Hello, world!")
+        NavigationView {
+            VStack {
+                TextField("Enter task", text: $title)
+                    .textFieldStyle(.roundedBorder)
+                Picker("Priority", selection: $selectedPriority) {
+                    ForEach(Priority.allCases) { priority  in
+                        Text(priority.title).tag(priority)
+                    }
+                }.pickerStyle(.segmented)
+                
+                Spacer()
+            }
             .padding()
+            .navigationTitle("To do")
+        }
+
     }
 }
 
