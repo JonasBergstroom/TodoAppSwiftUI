@@ -36,6 +36,21 @@ struct ContentView: View {
     
     @State private var title: String = ""
     @State private var selectedPriority: Priority = .medium
+    @Environment(\.managedObjectContext) private var ViewContext
+
+    
+    private func saveTask() {
+        
+        do {
+            let task = Task(context: ViewContext)
+            task.title = title
+            task.priority = selectedPriority.rawValue
+            task.dateCreated = Date()
+            try ViewContext.save()
+        } catch {
+            print(error.localizedDescription)
+        } 
+    }
     
     var body: some View {
         NavigationView {
@@ -48,6 +63,7 @@ struct ContentView: View {
                     }
                 }.pickerStyle(.segmented)
                 Button("Add task") {
+                    saveTask()
 
                 }
                 .padding(10)
