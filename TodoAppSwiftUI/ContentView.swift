@@ -37,6 +37,10 @@ struct ContentView: View {
     @State private var title: String = ""
     @State private var selectedPriority: Priority = .medium
     @Environment(\.managedObjectContext) private var ViewContext
+    
+    @FetchRequest(entity: Task.entity(), sortDescriptors:
+    [NSSortDescriptor(key: "dateCreated", ascending: false)]) private
+    var allTasks: FetchedResults<Task>
 
     
     private func saveTask() {
@@ -49,7 +53,7 @@ struct ContentView: View {
             try ViewContext.save()
         } catch {
             print(error.localizedDescription)
-        } 
+        }
     }
     
     var body: some View {
@@ -72,6 +76,13 @@ struct ContentView: View {
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10.0, style:
                         .continuous))
+                
+                List {
+                    
+                    ForEach(allTasks) { task in
+                        Text(task.title ?? "")
+                    }
+                }
                 
                 Spacer()
             }
