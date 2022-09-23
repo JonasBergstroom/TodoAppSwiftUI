@@ -94,6 +94,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let persistedContainer = CoreDataManager.shared.persistentContainer
+        ContentView().environment(\.managedObjectContext,persistedContainer.viewContext)
     }
 }
