@@ -39,9 +39,9 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var ViewContext
     
     @FetchRequest(entity: Task.entity(), sortDescriptors:
-                    [NSSortDescriptor(key: "dateCreated", ascending: false)]) private
-    var allTasks: FetchedResults<Task>
+                    [NSSortDescriptor(key: "dateCreated", ascending: false)])
     
+    private var allTasks: FetchedResults<Task>
     
     private func saveTask() {
         
@@ -136,12 +136,15 @@ struct ContentView: View {
                                 }
                         }
                     }.onDelete(perform: deleteTask)
+                }.onAppear() {
+                    UITableView.appearance().backgroundColor = UIColor.clear
                 }
-                
                 Spacer()
             }
             .padding()
             .navigationTitle("To do")
+            .font(.title3)
+            .background(Image("todobg"))
         }
     }
 }
