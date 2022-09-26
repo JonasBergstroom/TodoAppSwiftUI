@@ -39,9 +39,9 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var ViewContext
     
     @FetchRequest(entity: Task.entity(), sortDescriptors:
-    [NSSortDescriptor(key: "dateCreated", ascending: false)]) private
+                    [NSSortDescriptor(key: "dateCreated", ascending: false)]) private
     var allTasks: FetchedResults<Task>
-
+    
     
     private func saveTask() {
         
@@ -82,6 +82,19 @@ struct ContentView: View {
         }
     }
     
+    private func deleteTask(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let task = allTasks[index]
+            ViewContext.delete(task)
+            
+            do {
+                try ViewContext.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -94,7 +107,7 @@ struct ContentView: View {
                 }.pickerStyle(.segmented)
                 Button("Add task") {
                     saveTask()
-
+                    
                 }
                 .padding(10)
                 .frame(maxWidth: 320)
@@ -104,7 +117,6 @@ struct ContentView: View {
                         .continuous))
                 
                 List {
-                    
                     ForEach(allTasks) { task in
                         HStack {
                             Circle()
@@ -119,7 +131,7 @@ struct ContentView: View {
                                     updateTask(task)
                                 }
                         }
-                    }
+                    }.onDelete(perform: deleteTask)
                 }
                 
                 Spacer()
