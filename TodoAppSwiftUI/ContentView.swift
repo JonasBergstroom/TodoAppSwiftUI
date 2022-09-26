@@ -71,6 +71,17 @@ struct ContentView: View {
         }
     }
     
+    private func updateTask(_ task: Task) {
+        
+        task.isDone = !task.isDone
+        
+        do {
+            try ViewContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -101,8 +112,12 @@ struct ContentView: View {
                                 .frame(width: 15, height: 15)
                             Spacer().frame(width: 20)
                             Text(task.title ?? "")
-
-                            
+                            Spacer()
+                            Image(systemName: task.isDone ? "checkmark.circle.fill" : "checkmark.circle")
+                                .foregroundColor(.green)
+                                .onTapGesture {
+                                    updateTask(task)
+                                }
                         }
                     }
                 }
