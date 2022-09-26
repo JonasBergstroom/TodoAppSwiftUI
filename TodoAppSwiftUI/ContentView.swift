@@ -95,6 +95,10 @@ struct ContentView: View {
         }
     }
     
+    private func clearTextField() {
+        title = ""
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -107,7 +111,7 @@ struct ContentView: View {
                 }.pickerStyle(.segmented)
                 Button("Add task") {
                     saveTask()
-                    
+                    clearTextField()
                 }
                 .padding(10)
                 .frame(maxWidth: 320)
